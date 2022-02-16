@@ -1,0 +1,17 @@
+@import '~antd/dist/antd.css';
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Open+Sans:wght@300;400;500;600&display=swap');
+
+
+body {
+    background: #EBEEF3;
+}
+
+.app{
+    &__nav{
+        background-color: #fff;
+        height: 80px;
+        display: flex;
+        align-items: center;
+        padding: 16px 22px;
+    }
+}
