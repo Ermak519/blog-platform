@@ -1,5 +1,8 @@
 .navigation{
     flex-grow: 1;
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: normal;
 
     ul{
         padding: 0;
@@ -17,16 +20,30 @@
 
     &__item{
         align-items: baseline;
-        font-family: "Inter";
-        font-style: normal;
-        font-weight: normal;
         font-size: 18px;
         line-height: 28px;
         display: flex;
         align-items: center;
     }
 
-    &__registry{
-        display: flex;
+    .logo{
+        &:hover{
+            cursor: pointer;
+        }
+        
+        &__title{
+            padding-left: 10px;
+        }
+    }
+
+    .registry{
+        &__btns{
+            display: flex;
+        }
+        &__btn{
+            &:first-child{
+                padding-right: 10px;
+            }
+        }
     }
 }
