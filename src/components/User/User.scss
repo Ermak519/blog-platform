@@ -1,0 +1,32 @@
+.user {
+  display: flex;
+  &__name {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 28px;
+    display: flex;
+    align-items: center;
+    color: rgba(0, 0, 0, 0.85);
+  }
+  &__date {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 22px;
+    display: flex;
+    align-items: center;
+    color: rgba(0, 0, 0, 0.5);
+  }
+  &__img {
+    padding-left: 12px;
+
+    img {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+    }
+  }
+}

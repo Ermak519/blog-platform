@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { Button } from "antd";
 
 import './Navigation.scss';
@@ -17,18 +18,37 @@ export const Navigation = () => {
         (
             <div className="navigation">
                 <ul className="navigation__list">
-                    <li className="navigation__item logo">
-                        <div className="logo__img">
-                            <img src={Logo} alt="logo main" />
-                        </div>
-                        <div className="logo__title">
-                            Real World Blog
-                        </div>
+                    <li className="navigation__item">
+                        <Link style={{ color: 'black' }} className="navigation__item logo" to='/articles'>
+                            <div className="logo__img">
+                                <img src={Logo} alt="logo main" />
+                            </div>
+                            <div className="logo__title">
+                                Real World Blog
+                            </div>
+                        </Link>
                     </li>
                     <li className="navigation__item registry">
                         <ul className="registry__btns">
-                            <li className="registry__btn"><Button style={{ color: 'black', borderRadius: 5 }} size="large" type="text">Sign In</Button></li>
-                            <li className="registry__btn"><Button style={logInBtn} size="large">Sign Up</Button></li>
+                            <li className="registry__btn">
+                                <Link to='/login'>
+                                    <Button
+                                        style={{ color: 'black', borderRadius: 5 }}
+                                        size="large"
+                                        type="text"
+                                    >Sign In
+                                    </Button>
+                                </Link>
+                            </li>
+                            <li className="registry__btn">
+                                <Link to='/register'>
+                                    <Button
+                                        style={logInBtn}
+                                        size="large"
+                                    >Sign Up
+                                    </Button>
+                                </Link>
+                            </li>
                         </ul>
                     </li>
                 </ul>

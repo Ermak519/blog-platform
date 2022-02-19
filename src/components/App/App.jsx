@@ -1,22 +1,29 @@
 import React from 'react';
-import { Pagination } from 'antd';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import { Navigation } from '../Navigation';
 import { ArticleList } from '../ArticleList';
+import { Article } from '../Article';
 
 import './App.scss';
 
 
 export const App = () => (
-    <div className="app">
-        <nav className='app__nav'>
-            <Navigation />
-        </nav>
-        <main className="app__main">
-            <ArticleList />
-            <Pagination size="small" total={50} />
-        </main>
-    </div>
+    <Router>
+        <div className="app">
+            <nav className='app__nav'>
+                <Navigation />
+            </nav>
+            <main className="app__main">
+                <Routes>
+                    <Route path='/' element={<ArticleList />} />
+                    <Route path='/articles' element={<ArticleList />} >
+                        <Route path=':id' element={<Article />} />
+                    </Route>
+                </Routes>
+            </main>
+        </div>
+    </Router>
 )
 
 
