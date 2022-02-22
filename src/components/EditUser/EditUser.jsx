@@ -1,29 +1,28 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { Form, Input, Button } from 'antd';
-import { UserOutlined, MailOutlined } from '@ant-design/icons';
+import { UserOutlined, MailOutlined, FileImageOutlined } from '@ant-design/icons';
 
-import './RegisterForm.scss';
+import './EditUser.scss';
 
-const RegisterForm = () => {
+const EditUser = () => {
   const onFinish = (values) => {
     console.log('Received values of form: ', values);
   };
 
   return (
-    <div className="register-form">
-      <div className="register-form__header">Create new account</div>
-      <div className="register-form__main">
+    <div className="edit-user">
+      <div className="edit-user__header">Edit Profile</div>
+      <div className="edit-user__main">
         <Form name="normal_login" className="login-form" initialValues={{ remember: true }} onFinish={onFinish}>
-          <span className="register-form__email">Username</span>
+          <span className="edit-user__email">Username</span>
           <Form.Item name="username" rules={[{ required: true, message: 'Please input your Username!' }]}>
             <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
           </Form.Item>
-          <span className="register-form__email">Email address</span>
+          <span className="edit-user__email">Email address</span>
           <Form.Item name="email" rules={[{ required: true, message: 'Please input your Email!' }]}>
             <Input prefix={<MailOutlined className="site-form-item-icon" />} placeholder="Email address" />
           </Form.Item>
-          <span className="register-form__pwd">Password</span>
+          <span className="edit-user__pwd">New password</span>
           <Form.Item
             name="password"
             rules={[
@@ -36,16 +35,13 @@ const RegisterForm = () => {
           >
             <Input.Password />
           </Form.Item>
-          <span className="register-form__pwd">Repeat Password</span>
+          <span className="edit-user__pwd">Repeat Password</span>
           <Form.Item
             name="confirm"
             dependencies={['password']}
             hasFeedback
             rules={[
-              {
-                required: true,
-                message: 'Please confirm your password!',
-              },
+              { required: true, message: 'Please confirm your password!' },
               ({ getFieldValue }) => ({
                 validator(_, value) {
                   if (!value || getFieldValue('password') === value) {
@@ -58,23 +54,21 @@ const RegisterForm = () => {
           >
             <Input.Password />
           </Form.Item>
+          <span className="edit-user__email">Avatar image (url)</span>
+          <Form.Item name="url" rules={[{ required: true, message: 'Please input your url!' }]}>
+            <Input prefix={<FileImageOutlined className="site-form-item-icon" />} placeholder="Avatar image" />
+          </Form.Item>
           <Form.Item>
-            <div className="register-form__signIn">
+            <div className="edit-user__signIn">
               <Button type="primary" htmlType="submit" className="login-form-button">
-                Create
+                Save
               </Button>
             </div>
           </Form.Item>
-          <div className="register-form__reg">
-            Already have an account?
-            <Link to="/login">
-              <span className="register-form__link">Sign In</span>.
-            </Link>
-          </div>
         </Form>
       </div>
     </div>
   );
 };
 
-export default RegisterForm;
+export default EditUser;
