@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Form, Input, Button } from 'antd';
+import { Form, Input, Button, Result } from 'antd';
 
 import './EditArticle.scss';
 
@@ -95,7 +95,12 @@ const EditArticle = () => {
       </div>
     </div>
   ) : (
-    <div>secret edit</div>
+    <Result
+      status="403"
+      title="403"
+      subTitle="Sorry, you are not authorized to access this page."
+      extra={<Button type="primary">Back Home</Button>}
+    />
   );
 };
 

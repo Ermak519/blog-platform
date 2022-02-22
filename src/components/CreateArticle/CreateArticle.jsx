@@ -1,8 +1,9 @@
 import React from 'react';
-import { Form, Input, Button } from 'antd';
+import { Form, Input, Button, Result } from 'antd';
 
 import './CreateArticle.scss';
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 const CreateArticle = () => {
   const onFinish = (values) => {
@@ -86,7 +87,15 @@ const CreateArticle = () => {
       </div>
     </div>
   ) : (
-    <div>secret</div>
+    <Result
+      status="403"
+      title="Sorry, you are not authorized to access this page."
+      extra={
+        <Link to="/login">
+          <Button type="primary">Sign In</Button>
+        </Link>
+      }
+    />
   );
 };
 
