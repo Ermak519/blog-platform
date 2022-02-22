@@ -11,6 +11,7 @@ import { RegisterForm } from '../RegisterForm';
 import { Page404 } from '../Page404';
 import { EditUser } from '../EditUser';
 import { CreateArticle } from '../CreateArticle';
+import { EditArticle } from '../EditArticle';
 
 import './App.scss';
 
@@ -40,7 +41,7 @@ export const App = () => {
             <Route path="/login" element={<LogInForm />} />
             <Route path="/register" element={<RegisterForm />} />
             <Route path="/create-article" element={<CreateArticle />} />
-            <Route path="/edit-article/:id" element={<Page404 />} />
+            <Route path="/edit-article" element={<EditArticle />} />
             <Route path="/user/edit" element={<EditUser />} />
             <Route path="*" element={<Page404 />} />
           </Routes>

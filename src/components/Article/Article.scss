@@ -8,6 +8,22 @@
   &__header {
     .title {
       padding-bottom: 19px;
+      &__header {
+        display: flex;
+        align-items: baseline;
+      }
+      &__follow {
+        padding-left: 10px;
+      }
+      &__count {
+        padding-left: 5px;
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: normal;
+        font-size: 12px;
+        line-height: 22px;
+        color: rgba(0, 0, 0, 0.75);
+      }
       &__info {
         padding-bottom: 10px;
         font-family: 'Inter';
@@ -37,6 +53,9 @@
     line-height: 22px;
     color: rgba(0, 0, 0, 0.5);
     padding-bottom: 25px;
+  }
+  &__btns {
+    padding-top: 30px;
   }
   header {
     display: flex;

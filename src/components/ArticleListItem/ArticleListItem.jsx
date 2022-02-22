@@ -1,7 +1,9 @@
 import React from 'react';
 import propTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Tag } from 'antd';
+import { HeartOutlined } from '@ant-design/icons';
 import { nanoid } from '@reduxjs/toolkit';
 
 import { User } from '../User';
@@ -10,6 +12,8 @@ import './ArticleListItem.scss';
 
 export const ArticleListItem = ({ data }) => {
   const { title, description, slug, tagList, author, createdAt } = data;
+
+  const { isLogin } = useSelector((state) => state.user);
 
   const arrTag = tagList.map((item) => {
     const id = nanoid();
@@ -20,9 +24,21 @@ export const ArticleListItem = ({ data }) => {
     <div className="article-list-item article">
       <div className="article__header">
         <div className="article__title title">
-          <Link to={`${slug}`} style={{ color: 'black' }}>
-            <div className="title__info">{title}</div>
-          </Link>
+          <div className="title__header">
+            <Link to={`${slug}`} style={{ color: 'black' }}>
+              <div className="title__info">{title}</div>
+            </Link>
+            {isLogin ? (
+              <div className="title__follow">
+                <HeartOutlined
+                  onClick={() => {
+                    console.log('12');
+                  }}
+                />
+                <span className="title__count">12</span>
+              </div>
+            ) : null}
+          </div>
           <div className="title__tags">{arrTag}</div>
         </div>
         <article className="article__body">{description}</article>
