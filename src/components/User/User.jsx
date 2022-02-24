@@ -4,13 +4,14 @@ import format from 'date-fns/format';
 
 import './User.scss';
 
-export const User = ({ author, createdAt }) => {
+export const User = ({ author, updatedAt }) => {
   const { username, image } = author;
   return (
     <div className="user">
       <div className="user__info">
         <div className="user__name">{username}</div>
-        <div className="user__date">{format(new Date(createdAt), 'PPP')}</div>
+
+        <div className="user__date">{format(new Date(updatedAt), 'PPP')}</div>
       </div>
       <div className="user__img">
         <img src={image} alt={username} />
@@ -21,10 +22,10 @@ export const User = ({ author, createdAt }) => {
 
 User.defaultProps = {
   author: {},
-  createdAt: '',
+  updatedAt: '',
 };
 
 User.propTypes = {
   author: propTypes.object,
-  createdAt: propTypes.string,
+  updatedAt: propTypes.string,
 };

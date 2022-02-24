@@ -1,14 +1,22 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Button } from 'antd';
+import { userLogout } from '../../store/slices/userSlice';
 
 import './Navigation.scss';
 import Logo from '../../assets/img/logo.svg';
 import { logInBtn, logOutBtn, createArticleBtn } from './styles';
 
 export const Navigation = () => {
-  const { isLogin } = useSelector((state) => state.user);
+  const { isLogin, data } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const { username, image } = data;
+
+  const logOut = () => {
+    dispatch(userLogout());
+    localStorage.setItem('User_Token', '');
+  };
 
   return (
     <div className="navigation">
@@ -44,24 +52,29 @@ export const Navigation = () => {
           <li className="navigation__item loginUser">
             <ul className="loginUser__btns">
               <li className="loginUser__btn">
-                <Link to="/create-article">
+                <Link to="/new-article">
                   <Button style={createArticleBtn} size="large">
                     Create article
                   </Button>
                 </Link>
               </li>
               <li className="loginUser__usr">
-                <div className="loginUser__name">John Doe</div>
-                <div className="loginUser__img">
-                  <img
-                    src="https://cdn11.bigcommerce.com/s-7va6f0fjxr/images/stencil/1280x1280/products/20457/79861/Converge-Jane-Doe-Vinyl-Decal-Sticker-1__04484__81432.1498057176__73213.1546614093.jpg?c=2"
-                    alt="John Doe"
-                  />
-                </div>
+                <Link className="loginUser__usr" to="/profile">
+                  <div className="loginUser__name">{username}</div>
+                  <div className="loginUser__img">
+                    <img
+                      src={
+                        image ||
+                        'https://flomaster.club/uploads/posts/2021-11/1637990338_4-flomaster-club-p-risunki-kotyat-legkie-i-milie-detskie-4.png'
+                      }
+                      alt="John Doe"
+                    />
+                  </div>
+                </Link>
               </li>
               <li className="loginUser__btn">
                 <Link to="/articles">
-                  <Button style={logOutBtn} size="large">
+                  <Button style={logOutBtn} size="large" onClick={logOut}>
                     Log Out
                   </Button>
                 </Link>

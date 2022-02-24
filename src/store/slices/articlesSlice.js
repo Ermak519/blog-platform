@@ -3,8 +3,6 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   articlesData: [],
   articlesLoadingStatus: '',
-  articleId: '',
-  articleData: [],
 };
 
 const articlesSlice = createSlice({
@@ -18,16 +16,10 @@ const articlesSlice = createSlice({
       state.articlesData = action.payload;
       state.articlesLoadingStatus = 'loaded';
     },
-    addArticleId: (state, action) => {
-      state.articleId = action.payload;
-    },
-    addArticleData: (state, action) => {
-      state.articleData = action.payload;
-    },
   },
 });
 
 const { actions, reducer } = articlesSlice;
 
 export { reducer };
-export const { articlesLoading, addArticles, addArticleId, addArticleData } = actions;
+export const { articlesLoading, addArticles } = actions;

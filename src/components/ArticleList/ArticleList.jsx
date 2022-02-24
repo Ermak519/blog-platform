@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Pagination, Spin, List } from 'antd';
 
-import { getDataArticles } from '../../store/middlewares/thunks';
+import { getDataArticles } from '../../store/middlewares/articlesThunk';
 
 import { ArticleListItem } from '../ArticleListItem';
 

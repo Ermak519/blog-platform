@@ -11,7 +11,7 @@ import { User } from '../User';
 import './ArticleListItem.scss';
 
 export const ArticleListItem = ({ data }) => {
-  const { title, description, slug, tagList, author, createdAt } = data;
+  const { title, description, slug, tagList, author, createdAt, updatedAt } = data;
 
   const { isLogin } = useSelector((state) => state.user);
 
@@ -21,32 +21,32 @@ export const ArticleListItem = ({ data }) => {
   });
 
   return (
-    <div className="article-list-item article">
-      <div className="article__header">
-        <div className="article__title title">
-          <div className="title__header">
-            <Link to={`${slug}`} style={{ color: 'black' }}>
+    <Link to={`/articles/${slug}`} style={{ color: 'black' }}>
+      <div className="article-list-item article">
+        <div className="article__header">
+          <div className="article__title title">
+            <div className="title__header">
               <div className="title__info">{title}</div>
-            </Link>
-            {isLogin ? (
-              <div className="title__follow">
-                <HeartOutlined
-                  onClick={() => {
-                    console.log('12');
-                  }}
-                />
-                <span className="title__count">12</span>
-              </div>
-            ) : null}
+              {isLogin ? (
+                <div className="title__follow">
+                  <HeartOutlined
+                    onClick={() => {
+                      console.log('like');
+                    }}
+                  />
+                  <span className="title__count">12</span>
+                </div>
+              ) : null}
+            </div>
+            <div className="title__tags">{arrTag}</div>
           </div>
-          <div className="title__tags">{arrTag}</div>
+          <article className="article__body">{description}</article>
         </div>
-        <article className="article__body">{description}</article>
+        <div className="article__user">
+          <User author={author} createdAt={createdAt} updatedAt={updatedAt} />
+        </div>
       </div>
-      <div className="article__user">
-        <User author={author} createdAt={createdAt} />
-      </div>
-    </div>
+    </Link>
   );
 };
 

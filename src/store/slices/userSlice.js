@@ -2,8 +2,8 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   isLogin: false,
-  API_key: '',
-  data: [],
+  token: localStorage.getItem('User_Token') || '',
+  data: {},
 };
 
 const userSlice = createSlice({
@@ -12,11 +12,15 @@ const userSlice = createSlice({
   reducers: {
     userLogin: (state, action) => {
       state.isLogin = true;
-      state.API_key = action.payload;
+      state.data = action.payload;
     },
     userLogout: (state) => {
       state.isLogin = false;
-      state.API_key = '';
+      state.token = '';
+      state.data = {};
+    },
+    userUpdate: (state, action) => {
+      state.data = action.payload;
     },
   },
 });
@@ -25,4 +29,4 @@ const { actions, reducer } = userSlice;
 
 export { reducer };
 
-export const { userLogin, userLogout } = actions;
+export const { userLogin, userLogout, userUpdate } = actions;

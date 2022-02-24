@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
-import { Tag, Button, Popconfirm } from 'antd';
+import { Tag, Button, Popconfirm, Spin } from 'antd';
 import { HeartOutlined } from '@ant-design/icons';
 import { nanoid } from '@reduxjs/toolkit';
 import ReactMarkdown from 'react-markdown';
@@ -11,20 +11,23 @@ import { User } from '../User';
 import './Article.scss';
 
 export const Article = () => {
+  const { status } = useSelector((state) => state.article);
   const { articlesData } = useSelector((state) => state.articles);
   const { isLogin } = useSelector((state) => state.user);
 
   const { id } = useParams();
 
   const item = articlesData.find((obj) => obj.slug === id);
-  const { title, description, createdAt, tagList, body, author } = item;
+  const { title, description, updatedAt, tagList, body, author } = item;
 
   const arrTag = tagList.map((elem) => {
     const idx = nanoid();
     return <Tag key={idx}>{`${elem}`}</Tag>;
   });
 
-  return (
+  return status === 'loading' ? (
+    <Spin />
+  ) : (
     <div className="article-full">
       <header>
         <div className="article-full__header">
@@ -35,7 +38,7 @@ export const Article = () => {
                 <div className="title__follow">
                   <HeartOutlined
                     onClick={() => {
-                      console.log('12');
+                      console.log('like');
                     }}
                   />
                   <span className="title__count">12</span>
@@ -47,7 +50,7 @@ export const Article = () => {
           <article className="article-full__descr">{description}</article>
         </div>
         <div className="article-full__user">
-          <User author={author} createdAt={createdAt} />
+          <User author={author} updatedAt={updatedAt} />
           {isLogin ? (
             <div className="article-full__btns">
               <Popconfirm
@@ -63,7 +66,7 @@ export const Article = () => {
                   Delete
                 </Button>
               </Popconfirm>
-              <Link to="/edit-article">
+              <Link to={`/articles/${id}/edit`}>
                 <Button
                   type="primary"
                   ghost

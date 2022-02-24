@@ -1,23 +1,40 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Form, Input, Button } from 'antd';
-import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import { Form, Input, Button, message } from 'antd';
+import { MailOutlined, LockOutlined } from '@ant-design/icons';
+
+import { postUserLogin } from '../../API';
+import { userLogin } from '../../store/slices/userSlice';
 
 import './LogInForm.scss';
 
 const LogInForm = () => {
-  const onFinish = (values) => {
-    console.log('Received values of form: ', values);
+  const [form] = Form.useForm();
+
+  const dispatch = useDispatch();
+
+  const onSubmit = async (values) => {
+    form.resetFields();
+    try {
+      const { email, password } = values;
+      const { user } = await postUserLogin(email, password);
+      localStorage.setItem('User_Token', user.token);
+      dispatch(userLogin(user));
+      message.success(`Hello, ${user.username}. Welcome back.`);
+    } catch {
+      message.error('Incorrect login or password. Try again.');
+    }
   };
 
   return (
     <div className="logInForm">
       <div className="logInForm__header">Sign In</div>
       <div className="logInForm__main">
-        <Form name="normal_login" className="login-form" initialValues={{ remember: true }} onFinish={onFinish}>
+        <Form form={form} name="normal_login" className="login-form" onFinish={onSubmit}>
           <span className="logInForm__email">Email address</span>
           <Form.Item name="email" rules={[{ required: true, message: 'Please input your Email!' }]}>
-            <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Email address" />
+            <Input prefix={<MailOutlined className="site-form-item-icon" />} placeholder="Email address" />
           </Form.Item>
           <span className="logInForm__pwd">Password</span>
           <Form.Item name="password" rules={[{ required: true, message: 'Please input your Password!' }]}>

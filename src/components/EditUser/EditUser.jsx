@@ -1,25 +1,48 @@
 import React from 'react';
-import { Form, Input, Button } from 'antd';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { Form, Input, Button, Result, message } from 'antd';
 import { UserOutlined, MailOutlined, FileImageOutlined } from '@ant-design/icons';
+
+import { putUserUpdate } from '../../API';
+
+import { userUpdate } from '../../store/slices/userSlice';
 
 import './EditUser.scss';
 
 const EditUser = () => {
-  const onFinish = (values) => {
-    console.log('Received values of form: ', values);
+  const [form] = Form.useForm();
+
+  const { isLogin, data } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
+  const { username: name, email: mail } = data;
+
+  const onSubmit = async (values) => {
+    const { username, email, password, img } = values;
+    const token = localStorage.getItem('User_Token');
+    const { user } = await putUserUpdate(token, username, email, password, img);
+    dispatch(userUpdate(user));
+    message.success('Data has been update');
   };
 
-  return (
+  return isLogin ? (
     <div className="edit-user">
       <div className="edit-user__header">Edit Profile</div>
       <div className="edit-user__main">
-        <Form name="normal_login" className="login-form" initialValues={{ remember: true }} onFinish={onFinish}>
+        <Form
+          form={form}
+          name="normal_login"
+          className="login-form"
+          initialValues={{ username: `${name}`, email: `${mail}` }}
+          onFinish={onSubmit}
+        >
           <span className="edit-user__email">Username</span>
-          <Form.Item name="username" rules={[{ required: true, message: 'Please input your Username!' }]}>
+          <Form.Item name="username" rules={[{ required: true, message: 'Username must be 3-20 symbols' }]}>
             <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
           </Form.Item>
           <span className="edit-user__email">Email address</span>
-          <Form.Item name="email" rules={[{ required: true, message: 'Please input your Email!' }]}>
+          <Form.Item name="email" rules={[{ type: 'email', required: true, message: 'Enter your email' }]}>
             <Input prefix={<MailOutlined className="site-form-item-icon" />} placeholder="Email address" />
           </Form.Item>
           <span className="edit-user__pwd">New password</span>
@@ -27,8 +50,10 @@ const EditUser = () => {
             name="password"
             rules={[
               {
+                min: 6,
+                max: 40,
                 required: true,
-                message: 'Please input your password!',
+                message: 'Minimal length 6 symbols',
               },
             ]}
             hasFeedback
@@ -47,7 +72,7 @@ const EditUser = () => {
                   if (!value || getFieldValue('password') === value) {
                     return Promise.resolve();
                   }
-                  return Promise.reject(new Error('The two passwords that you entered do not match!'));
+                  return Promise.reject(new Error('Passwords must match'));
                 },
               }),
             ]}
@@ -55,7 +80,7 @@ const EditUser = () => {
             <Input.Password />
           </Form.Item>
           <span className="edit-user__email">Avatar image (url)</span>
-          <Form.Item name="url" rules={[{ required: true, message: 'Please input your url!' }]}>
+          <Form.Item name="img" rules={[{ type: 'url', required: true, message: 'Must be correct URL image' }]}>
             <Input prefix={<FileImageOutlined className="site-form-item-icon" />} placeholder="Avatar image" />
           </Form.Item>
           <Form.Item>
@@ -68,6 +93,17 @@ const EditUser = () => {
         </Form>
       </div>
     </div>
+  ) : (
+    <Result
+      status="403"
+      title="403"
+      subTitle="Sorry, you are not authorized to access this page."
+      extra={
+        <Button type="primary">
+          <Link to="/login">Sign In</Link>
+        </Button>
+      }
+    />
   );
 };
 

@@ -1,10 +1,14 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { useParams, Link } from 'react-router-dom';
 import { Form, Input, Button, Result } from 'antd';
 
 import './EditArticle.scss';
 
 const EditArticle = () => {
+  const { isLogin } = useSelector((state) => state.user);
+  const { articlesData } = useSelector((state) => state.articles);
+
   const onFinish = (values) => {
     const newObj = values;
     if (!newObj.tagList) {
@@ -13,7 +17,10 @@ const EditArticle = () => {
     console.log('Received values of form: ', newObj);
   };
 
-  const { isLogin } = useSelector((state) => state.user);
+  const { id } = useParams();
+
+  const item = articlesData.find((obj) => obj.slug === id);
+  const { title, description, tagList, body } = item;
 
   const formItemLayout = {
     labelCol: {
@@ -33,7 +40,7 @@ const EditArticle = () => {
         <Form
           name="normal_login"
           className="login-form"
-          initialValues={{ title: 'hfhfhfh', description: 'djsakf', body: 'adsasd', tagList: ['asd'] }}
+          initialValues={{ title: `${title}`, description: `${description}`, body: `${body}`, tagList: [...tagList] }}
           onFinish={onFinish}
         >
           <span className="edit-article__title">Title</span>
@@ -99,7 +106,11 @@ const EditArticle = () => {
       status="403"
       title="403"
       subTitle="Sorry, you are not authorized to access this page."
-      extra={<Button type="primary">Back Home</Button>}
+      extra={
+        <Button type="primary">
+          <Link to="/login">Sign In</Link>
+        </Button>
+      }
     />
   );
 };
