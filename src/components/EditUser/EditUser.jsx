@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Form, Input, Button, Result, message } from 'antd';
 import { UserOutlined, MailOutlined, FileImageOutlined } from '@ant-design/icons';
 
@@ -18,11 +18,14 @@ const EditUser = () => {
 
   const { username: name, email: mail } = data;
 
+  const navigate = useNavigate();
+
   const onSubmit = async (values) => {
     const { username, email, password, img } = values;
     const token = localStorage.getItem('User_Token');
     const { user } = await putUserUpdate(token, username, email, password, img);
     dispatch(userUpdate(user));
+    navigate('/articles');
     message.success('Data has been update');
   };
 

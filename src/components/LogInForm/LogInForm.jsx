@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Form, Input, Button, message } from 'antd';
 import { MailOutlined, LockOutlined } from '@ant-design/icons';
 
@@ -12,6 +12,8 @@ import './LogInForm.scss';
 const LogInForm = () => {
   const [form] = Form.useForm();
 
+  const navigate = useNavigate();
+
   const dispatch = useDispatch();
 
   const onSubmit = async (values) => {
@@ -21,6 +23,7 @@ const LogInForm = () => {
       const { user } = await postUserLogin(email, password);
       localStorage.setItem('User_Token', user.token);
       dispatch(userLogin(user));
+      navigate('/articles');
       message.success(`Hello, ${user.username}. Welcome back.`);
     } catch {
       message.error('Incorrect login or password. Try again.');

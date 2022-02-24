@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Form, Input, Button, message, Checkbox } from 'antd';
 import { UserOutlined, MailOutlined } from '@ant-design/icons';
 
@@ -10,11 +10,14 @@ import './RegisterForm.scss';
 const RegisterForm = () => {
   const [form] = Form.useForm();
 
+  const navigate = useNavigate();
+
   const onSubmit = async (values) => {
     const { username, email, password, agreement } = values;
     if (agreement) {
       form.resetFields();
       await postRegisterUser(username, email, password);
+      navigate('/articles');
       message.success('You have been registered');
     } else {
       message.error('You need to consent to the processing of personal data');

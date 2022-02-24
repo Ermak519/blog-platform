@@ -11,7 +11,7 @@ import { User } from '../User';
 import './ArticleListItem.scss';
 
 export const ArticleListItem = ({ data }) => {
-  const { title, description, slug, tagList, author, createdAt, updatedAt } = data;
+  const { title, description, slug, tagList, author, createdAt, updatedAt, favoritesCount } = data;
 
   const { isLogin } = useSelector((state) => state.user);
 
@@ -34,7 +34,7 @@ export const ArticleListItem = ({ data }) => {
                       console.log('like');
                     }}
                   />
-                  <span className="title__count">12</span>
+                  <span className="title__count">{favoritesCount}</span>
                 </div>
               ) : null}
             </div>

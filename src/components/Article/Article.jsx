@@ -18,7 +18,7 @@ export const Article = () => {
   const { id } = useParams();
 
   const item = articlesData.find((obj) => obj.slug === id);
-  const { title, description, updatedAt, tagList, body, author } = item;
+  const { title, description, updatedAt, tagList, body, author, favoritesCount } = item;
 
   const arrTag = tagList.map((elem) => {
     const idx = nanoid();
@@ -41,7 +41,7 @@ export const Article = () => {
                       console.log('like');
                     }}
                   />
-                  <span className="title__count">12</span>
+                  <span className="title__count">{favoritesCount}</span>
                 </div>
               ) : null}
             </div>

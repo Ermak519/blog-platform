@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Button } from 'antd';
 import { userLogout } from '../../store/slices/userSlice';
 
@@ -13,8 +13,11 @@ export const Navigation = () => {
   const dispatch = useDispatch();
   const { username, image } = data;
 
+  const navigate = useNavigate();
+
   const logOut = () => {
     dispatch(userLogout());
+    navigate('/articles');
     localStorage.setItem('User_Token', '');
   };
 
@@ -73,11 +76,9 @@ export const Navigation = () => {
                 </Link>
               </li>
               <li className="loginUser__btn">
-                <Link to="/articles">
-                  <Button style={logOutBtn} size="large" onClick={logOut}>
-                    Log Out
-                  </Button>
-                </Link>
+                <Button style={logOutBtn} size="large" onClick={logOut}>
+                  Log Out
+                </Button>
               </li>
             </ul>
           </li>
