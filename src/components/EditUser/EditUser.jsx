@@ -22,8 +22,9 @@ const EditUser = () => {
 
   const onSubmit = async (values) => {
     const { username, email, password, img } = values;
-    const token = localStorage.getItem('User_Token');
+    const { token } = JSON.parse(localStorage.getItem('user'));
     const { user } = await putUserUpdate(token, username, email, password, img);
+    localStorage.setItem('user', JSON.stringify(user));
     dispatch(userUpdate(user));
     navigate('/articles');
     message.success('Data has been update');

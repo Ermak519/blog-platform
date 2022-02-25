@@ -1,1 +1,1 @@
-export { User } from './User.jsx';
+export { default as User } from './User.jsx';

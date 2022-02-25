@@ -8,7 +8,7 @@ import './Navigation.scss';
 import Logo from '../../assets/img/logo.svg';
 import { logInBtn, logOutBtn, createArticleBtn } from './styles';
 
-export const Navigation = () => {
+const Navigation = () => {
   const { isLogin, data } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const { username, image } = data;
@@ -18,7 +18,7 @@ export const Navigation = () => {
   const logOut = () => {
     dispatch(userLogout());
     navigate('/articles');
-    localStorage.setItem('User_Token', '');
+    localStorage.setItem('user', '');
   };
 
   return (
@@ -87,3 +87,5 @@ export const Navigation = () => {
     </div>
   );
 };
+
+export default Navigation;

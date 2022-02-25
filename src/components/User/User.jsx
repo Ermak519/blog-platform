@@ -4,7 +4,7 @@ import format from 'date-fns/format';
 
 import './User.scss';
 
-export const User = ({ author, updatedAt }) => {
+const User = ({ author, updatedAt }) => {
   const { username, image } = author;
   return (
     <div className="user">
@@ -29,3 +29,5 @@ User.propTypes = {
   author: propTypes.object,
   updatedAt: propTypes.string,
 };
+
+export default User;

@@ -1,1 +1,1 @@
-export { ArticleList } from './ArticleList.jsx'
+export { default as ArticleList } from './ArticleList.jsx';

@@ -21,7 +21,7 @@ const LogInForm = () => {
     try {
       const { email, password } = values;
       const { user } = await postUserLogin(email, password);
-      localStorage.setItem('User_Token', user.token);
+      localStorage.setItem('user', JSON.stringify(user));
       dispatch(userLogin(user));
       navigate('/articles');
       message.success(`Hello, ${user.username}. Welcome back.`);

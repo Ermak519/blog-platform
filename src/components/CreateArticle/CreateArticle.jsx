@@ -1,13 +1,20 @@
 import React from 'react';
-import { Form, Input, Button, Result } from 'antd';
+import { Form, Input, Button, Result, message } from 'antd';
+import { useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+
+import { postCreateArticle } from '../../API';
 
 import './CreateArticle.scss';
-import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 
 const CreateArticle = () => {
-  const onFinish = (values) => {
-    console.log('Received values of form: ', values);
+  const navigate = useNavigate();
+  const { token } = JSON.parse(localStorage.getItem('user'));
+
+  const onCreateArticle = async (values) => {
+    await postCreateArticle(token, values);
+    message.success('Article has been created');
+    navigate('/articles');
   };
 
   const { isLogin } = useSelector((state) => state.user);
@@ -27,7 +34,7 @@ const CreateArticle = () => {
     <div className="create-article">
       <div className="create-article__header">Create new article</div>
       <div className="create-article__main">
-        <Form name="normal_login" className="login-form" initialValues={{ remember: true }} onFinish={onFinish}>
+        <Form name="normal_login" className="login-form" initialValues={{ remember: true }} onFinish={onCreateArticle}>
           <span className="create-article__title">Title</span>
           <Form.Item name="title" rules={[{ required: true, message: 'Please input your Title!' }]}>
             <Input placeholder="Title" />

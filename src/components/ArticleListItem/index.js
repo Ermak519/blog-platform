@@ -1,1 +1,1 @@
-export { ArticleListItem } from './ArticleListItem.jsx'
+export { default as ArticleListItem } from './ArticleListItem.jsx';

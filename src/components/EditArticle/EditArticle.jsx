@@ -1,26 +1,28 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { useParams, Link } from 'react-router-dom';
-import { Form, Input, Button, Result } from 'antd';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Form, Input, Button, Result, message } from 'antd';
+
+import { putEditArticle } from '../../API';
 
 import './EditArticle.scss';
 
 const EditArticle = () => {
   const { isLogin } = useSelector((state) => state.user);
-  const { articlesData } = useSelector((state) => state.articles);
+  const { articleData } = useSelector((state) => state.article);
+  const { token } = JSON.parse(localStorage.getItem('user'));
 
-  const onFinish = (values) => {
-    const newObj = values;
-    if (!newObj.tagList) {
-      newObj.tagList = [];
-    }
-    console.log('Received values of form: ', newObj);
-  };
+  const navigate = useNavigate();
 
   const { id } = useParams();
 
-  const item = articlesData.find((obj) => obj.slug === id);
-  const { title, description, tagList, body } = item;
+  const onEditArticle = async (values) => {
+    await putEditArticle(token, id, values);
+    message.success('Article has been edited');
+    navigate('/articles');
+  };
+
+  const { title, description, tagList, body } = articleData;
 
   const formItemLayout = {
     labelCol: {
@@ -41,7 +43,7 @@ const EditArticle = () => {
           name="normal_login"
           className="login-form"
           initialValues={{ title: `${title}`, description: `${description}`, body: `${body}`, tagList: [...tagList] }}
-          onFinish={onFinish}
+          onFinish={onEditArticle}
         >
           <span className="edit-article__title">Title</span>
           <Form.Item name="title" rules={[{ required: true, message: 'Please input your Title!' }]}>

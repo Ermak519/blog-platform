@@ -8,7 +8,7 @@ import { ArticleListItem } from '../ArticleListItem';
 
 import './ArticleList.scss';
 
-export const ArticleList = () => {
+const ArticleList = () => {
   const { articlesData, articlesLoadingStatus } = useSelector((state) => state.articles);
 
   const dispatch = useDispatch();
@@ -36,3 +36,5 @@ export const ArticleList = () => {
     </div>
   );
 };
+
+export default ArticleList;

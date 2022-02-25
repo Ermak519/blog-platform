@@ -15,7 +15,7 @@ import { EditArticle } from '../EditArticle';
 
 import './App.scss';
 
-export const App = () => {
+const App = () => {
   const BackTopStyle = {
     height: 40,
     width: 40,
@@ -55,3 +55,5 @@ export const App = () => {
     </Router>
   );
 };
+
+export default App;
