@@ -67,6 +67,8 @@
   }
 
   main {
+    display: flex;
+    flex-direction: column;
     font-family: 'Inter';
     font-style: normal;
     font-weight: normal;

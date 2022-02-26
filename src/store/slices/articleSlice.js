@@ -13,10 +13,14 @@ const articleSlice = createSlice({
       state.articleData = action.payload;
       state.loading = false;
     },
+    clearArticleData: (state) => {
+      state.articleData = {};
+      state.loading = true;
+    },
   },
 });
 
 const { actions, reducer } = articleSlice;
 
 export { reducer };
-export const { setArticleData } = actions;
+export const { setArticleData, clearArticleData } = actions;

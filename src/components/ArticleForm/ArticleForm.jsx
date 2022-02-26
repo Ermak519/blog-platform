@@ -1,49 +1,55 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Form, Input, Button, Result, message } from 'antd';
 
-import { putEditArticle } from '../../API';
+import { setArticleData } from '../../store/slices/articleSlice';
 
-import './EditArticle.scss';
+import { putEditArticle, postCreateArticle } from '../../API';
 
-const EditArticle = () => {
+import './ArticleForm.scss';
+
+const ArticleForm = () => {
+  const { id } = useParams();
+
   const { isLogin } = useSelector((state) => state.user);
   const { articleData } = useSelector((state) => state.article);
+
   const { token } = JSON.parse(localStorage.getItem('user'));
+
+  const dispatch = useDispatch();
 
   const navigate = useNavigate();
 
-  const { id } = useParams();
-
   const onEditArticle = async (values) => {
-    await putEditArticle(token, id, values);
+    const { article } = await putEditArticle(token, id, values);
     message.success('Article has been edited');
-    navigate('/articles');
+    dispatch(setArticleData(article));
+    navigate(`/articles/${id}`);
   };
 
-  const { title, description, tagList, body } = articleData;
-
-  const formItemLayout = {
-    labelCol: {
-      xs: { span: 24 },
-      sm: { span: 4 },
-    },
-    wrapperCol: {
-      xs: { span: 24 },
-      sm: { span: 20 },
-    },
+  const onCreateArticle = async (values) => {
+    const { article } = await postCreateArticle(token, values);
+    message.success('Article has been created');
+    navigate(`/articles/${article.slug}`);
   };
+
+  const [form] = Form.useForm();
+
+  useEffect(() => {
+    if (!id) form.resetFields();
+  }, [id]);
 
   return isLogin ? (
     <div className="edit-article">
-      <div className="edit-article__header">Edit article</div>
+      <div className="edit-article__header">{id ? 'Edit article' : 'Create new article'}</div>
       <div className="edit-article__main">
         <Form
+          form={form}
           name="normal_login"
           className="login-form"
-          initialValues={{ title: `${title}`, description: `${description}`, body: `${body}`, tagList: [...tagList] }}
-          onFinish={onEditArticle}
+          initialValues={{ ...articleData }}
+          onFinish={id ? onEditArticle : onCreateArticle}
         >
           <span className="edit-article__title">Title</span>
           <Form.Item name="title" rules={[{ required: true, message: 'Please input your Title!' }]}>
@@ -62,7 +68,13 @@ const EditArticle = () => {
             {(fields, { add, remove }) => (
               <>
                 {fields.map((field, i) => (
-                  <Form.Item {...formItemLayout} className="edit-article__tag" required={false} key={field.key}>
+                  <Form.Item
+                    labelCol={{ xs: { span: 24 }, sm: { span: 4 } }}
+                    wrapperCol={{ xs: { span: 24 }, sm: { span: 20 } }}
+                    className="edit-article__tag"
+                    required={false}
+                    key={field.key}
+                  >
                     <Form.Item {...field} rules={[{ whitespace: true }]} noStyle>
                       <Input placeholder="Tag" style={{ width: 300 }} />
                     </Form.Item>
@@ -117,4 +129,4 @@ const EditArticle = () => {
   );
 };
 
-export default EditArticle;
+export default ArticleForm;

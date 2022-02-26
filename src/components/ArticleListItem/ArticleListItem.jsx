@@ -20,13 +20,13 @@ const ArticleListItem = ({ data }) => {
   const { token } = JSON.parse(localStorage.getItem('user'));
 
   const onFollow = async () => {
-    await postFavorites(token, slug);
-    console.log('follow');
+    const { article } = await postFavorites(token, slug);
+    console.log(article);
   };
 
   const onUnFollow = async () => {
-    await deleteFavorites(token, slug);
-    console.log('unfollow');
+    const { article } = await deleteFavorites(token, slug);
+    console.log(article);
   };
 
   return (

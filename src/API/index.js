@@ -2,8 +2,8 @@ import axios from 'axios';
 
 const API_URL = 'https://kata.academy:8021/api/';
 
-export const getAllArticles = async () => {
-  const { data } = await axios.get(`${API_URL}articles`);
+export const getAllArticles = async (page = 0) => {
+  const { data } = await axios.get(`${API_URL}articles?offset=${page}&limit=10`);
   return data;
 };
 
@@ -31,7 +31,7 @@ export const postCreateArticle = async (token, values) => {
 
 export const putEditArticle = async (token, id, values) => {
   const { body, description, title, tagList } = values;
-  axios.put(
+  const { data } = await axios.put(
     `${API_URL}articles/${id}`,
     {
       article: {
@@ -43,6 +43,7 @@ export const putEditArticle = async (token, id, values) => {
     },
     { headers: { Authorization: `Token ${token}` } }
   );
+  return data;
 };
 
 export const deleteArticle = async (token, id) => {
@@ -94,9 +95,17 @@ export const putUserUpdate = async (token, username, mail, pwd, img) => {
 };
 
 export const postFavorites = async (token, id) => {
-  await axios.post(`${API_URL}articles/${id}/favorite`, {}, { headers: { Authorization: `Token ${token}` } });
+  const { data } = await axios.post(
+    `${API_URL}articles/${id}/favorite`,
+    {},
+    { headers: { Authorization: `Token ${token}` } }
+  );
+  return data;
 };
 
 export const deleteFavorites = async (token, id) => {
-  await axios.delete(`${API_URL}articles/${id}/favorite`, { headers: { Authorization: `Token ${token}` } });
+  const { data } = await axios.delete(`${API_URL}articles/${id}/favorite`, {
+    headers: { Authorization: `Token ${token}` },
+  });
+  return data;
 };

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button } from 'antd';
 import { userLogout } from '../../store/slices/userSlice';
+import { clearArticleData } from '../../store/slices/articleSlice';
 
 import './Navigation.scss';
 import Logo from '../../assets/img/logo.svg';
@@ -25,7 +26,14 @@ const Navigation = () => {
     <div className="navigation">
       <ul className="navigation__list">
         <li className="navigation__item">
-          <Link style={{ color: 'black' }} className="navigation__item logo" to="/articles">
+          <Link
+            style={{ color: 'black' }}
+            className="navigation__item logo"
+            to="/articles"
+            onClick={() => {
+              dispatch(clearArticleData());
+            }}
+          >
             <div className="logo__img">
               <img src={Logo} alt="logo main" />
             </div>
@@ -55,7 +63,12 @@ const Navigation = () => {
           <li className="navigation__item loginUser">
             <ul className="loginUser__btns">
               <li className="loginUser__btn">
-                <Link to="/new-article">
+                <Link
+                  to="/new-article"
+                  onClick={() => {
+                    dispatch(clearArticleData());
+                  }}
+                >
                   <Button style={createArticleBtn} size="large">
                     Create article
                   </Button>

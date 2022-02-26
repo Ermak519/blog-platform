@@ -3,13 +3,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Pagination, Spin, List } from 'antd';
 
 import { getDataArticles } from '../../store/middlewares/articlesThunk';
+import { setCurrentPage } from '../../store/slices/articlesSlice';
 
 import { ArticleListItem } from '../ArticleListItem';
 
 import './ArticleList.scss';
 
 const ArticleList = () => {
-  const { articlesData, articlesLoadingStatus } = useSelector((state) => state.articles);
+  const { articlesData, articlesLoadingStatus, pages, currentPage } = useSelector((state) => state.articles);
 
   const dispatch = useDispatch();
 
@@ -31,7 +32,16 @@ const ArticleList = () => {
         )}
       />
       <div className="pagination">
-        <Pagination size="small" total={50} />
+        <Pagination
+          current={currentPage}
+          onChange={(value) => {
+            dispatch(setCurrentPage(value));
+            dispatch(getDataArticles(currentPage === 1 ? 0 : currentPage * 10));
+          }}
+          showSizeChanger={false}
+          size="small"
+          total={pages}
+        />
       </div>
     </div>
   );
