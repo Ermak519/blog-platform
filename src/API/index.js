@@ -2,8 +2,8 @@ import axios from 'axios';
 
 const API_URL = 'https://kata.academy:8021/api/';
 
-export const getAllArticles = async (page = 0) => {
-  const { data } = await axios.get(`${API_URL}articles?offset=${page}&limit=10`);
+export const getArticles = async (offset = 0) => {
+  const { data } = await axios.get(`${API_URL}articles?offset=${offset}&limit=10`);
   return data;
 };
 

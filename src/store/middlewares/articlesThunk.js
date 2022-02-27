@@ -1,10 +1,18 @@
-import { articlesLoading, addArticles, setNumbersOfPages } from '../slices/articlesSlice';
-import { getAllArticles } from '../../API';
+import { addArticles, offsetArticles, setPage } from '../slices/articlesSlice';
+import { getArticles } from '../../API';
 
-export const getDataArticles = (page) => async (dispatch) => {
-  dispatch(articlesLoading());
-  const data = await getAllArticles(page);
-  const { articles, articlesCount } = data;
-  dispatch(setNumbersOfPages(articlesCount));
-  dispatch(addArticles(articles));
+export const getDataArticles = () => async (dispatch) => {
+  const data = await getArticles();
+  const { articles, articlesCount: pages } = data;
+  dispatch(addArticles({ articles, pages }));
+};
+
+export const getNewArticles = (value) => async (dispatch) => {
+  const offset = value * 10 - 10;
+  dispatch(setPage(value));
+  dispatch(offsetArticles(offset));
+  const data = await getArticles(offset);
+  const { articles, articlesCount: pages } = data;
+  dispatch(addArticles({ articles, pages }));
+  window.scrollTo(0, 0);
 };

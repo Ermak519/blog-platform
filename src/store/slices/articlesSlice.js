@@ -2,27 +2,30 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   articlesData: [],
-  articlesLoadingStatus: '',
+  loading: true,
   pages: 0,
-  currentPage: 1,
+  offset: 0,
+  page: 1,
+  followed: [],
 };
 
 const articlesSlice = createSlice({
   name: 'articles',
   initialState,
   reducers: {
-    articlesLoading: (state) => {
-      state.articlesLoadingStatus = 'loading';
-    },
     addArticles: (state, action) => {
-      state.articlesData = action.payload;
-      state.articlesLoadingStatus = 'loaded';
+      state.articlesData = action.payload.articles;
+      state.pages = action.payload.pages;
+      state.loading = false;
     },
-    setNumbersOfPages: (state, actions) => {
-      state.pages = actions.payload;
+    offsetArticles: (state, action) => {
+      state.offset = action.payload;
     },
-    setCurrentPage: (state, action) => {
-      state.currentPage = action.payload;
+    setPage: (state, action) => {
+      state.page = action.payload;
+    },
+    setFollowed: (state, action) => {
+      state.followed = action.payload;
     },
   },
 });
@@ -30,4 +33,4 @@ const articlesSlice = createSlice({
 const { actions, reducer } = articlesSlice;
 
 export { reducer };
-export const { articlesLoading, addArticles, setNumbersOfPages, setCurrentPage } = actions;
+export const { addArticles, offsetArticles, setPage, setFollowed } = actions;

@@ -1,10 +1,12 @@
 import React from 'react';
 import propTypes from 'prop-types';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Tag } from 'antd';
 import { HeartOutlined, HeartFilled } from '@ant-design/icons';
 import { nanoid } from '@reduxjs/toolkit';
+
+import { setFollowed } from '../../store/slices/articlesSlice';
 
 import { postFavorites, deleteFavorites } from '../../API';
 
@@ -13,11 +15,14 @@ import { User } from '../User';
 import './ArticleListItem.scss';
 
 const ArticleListItem = ({ data }) => {
-  const { title, description, slug, tagList, author, createdAt, updatedAt, favoritesCount, favorited } = data;
+  const { title, description, slug, tagList, author, createdAt, updatedAt, favoritesCount } = data;
 
   const { isLogin } = useSelector((state) => state.user);
+  const { followed } = useSelector((state) => state.articles);
 
-  const { token } = JSON.parse(localStorage.getItem('user'));
+  const dispatch = useDispatch();
+
+  const { token } = JSON.parse(localStorage.getItem('user')) ?? '';
 
   const onFollow = async () => {
     const { article } = await postFavorites(token, slug);
@@ -39,7 +44,7 @@ const ArticleListItem = ({ data }) => {
             </div>
             {isLogin ? (
               <div className="title__follow">
-                {favorited ? (
+                {followed.includes(slug) ? (
                   <HeartFilled style={{ color: 'red' }} onClick={onUnFollow} />
                 ) : (
                   <HeartOutlined onClick={onFollow} />

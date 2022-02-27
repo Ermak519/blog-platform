@@ -2,23 +2,30 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Pagination, Spin, List } from 'antd';
 
-import { getDataArticles } from '../../store/middlewares/articlesThunk';
-import { setCurrentPage } from '../../store/slices/articlesSlice';
+import { getDataArticles, getNewArticles } from '../../store/middlewares/articlesThunk';
+import { offsetArticles } from '../../store/slices/articlesSlice';
 
 import { ArticleListItem } from '../ArticleListItem';
 
 import './ArticleList.scss';
 
 const ArticleList = () => {
-  const { articlesData, articlesLoadingStatus, pages, currentPage } = useSelector((state) => state.articles);
+  const { articlesData, loading, pages, page } = useSelector((state) => state.articles);
 
   const dispatch = useDispatch();
 
+  // const query = new URLSearchParams(useLocation().search);
+  // const urlPage = query.get('page');
+
   useEffect(() => {
     dispatch(getDataArticles());
-  }, [dispatch]);
+  }, []);
 
-  return articlesLoadingStatus === 'loading' ? (
+  // useEffect(() => {
+  //   dispatch(getNewArticles(urlPage));
+  // }, [urlPage]);
+
+  return loading ? (
     <Spin />
   ) : (
     <div className="article-list">
@@ -33,10 +40,9 @@ const ArticleList = () => {
       />
       <div className="pagination">
         <Pagination
-          current={currentPage}
+          current={page}
           onChange={(value) => {
-            dispatch(setCurrentPage(value));
-            dispatch(getDataArticles(currentPage === 1 ? 0 : currentPage * 10));
+            dispatch(getNewArticles(value));
           }}
           showSizeChanger={false}
           size="small"
