@@ -1,12 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import propTypes from 'prop-types';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Tag } from 'antd';
 import { HeartOutlined, HeartFilled } from '@ant-design/icons';
 import { nanoid } from '@reduxjs/toolkit';
-
-import { setFollowed } from '../../store/slices/articlesSlice';
 
 import { postFavorites, deleteFavorites } from '../../API';
 
@@ -15,23 +13,27 @@ import { User } from '../User';
 import './ArticleListItem.scss';
 
 const ArticleListItem = ({ data }) => {
-  const { title, description, slug, tagList, author, createdAt, updatedAt, favoritesCount } = data;
+  const { title, description, slug, tagList, author, createdAt, updatedAt, favoritesCount, favorited } = data;
 
   const { isLogin } = useSelector((state) => state.user);
-  const { followed } = useSelector((state) => state.articles);
 
-  const dispatch = useDispatch();
+  const { token } = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : '';
 
-  const { token } = JSON.parse(localStorage.getItem('user')) ?? '';
+  const [followCount, setFollowCount] = useState(favoritesCount);
+  const [follow, setFollow] = useState(favorited);
 
   const onFollow = async () => {
     const { article } = await postFavorites(token, slug);
-    console.log(article);
+    const { favoritesCount: count, favorited: like } = article;
+    setFollowCount(count);
+    setFollow(like);
   };
 
   const onUnFollow = async () => {
     const { article } = await deleteFavorites(token, slug);
-    console.log(article);
+    const { favoritesCount: count, favorited: like } = article;
+    setFollowCount(count);
+    setFollow(like);
   };
 
   return (
@@ -44,12 +46,12 @@ const ArticleListItem = ({ data }) => {
             </div>
             {isLogin ? (
               <div className="title__follow">
-                {followed.includes(slug) ? (
+                {follow ? (
                   <HeartFilled style={{ color: 'red' }} onClick={onUnFollow} />
                 ) : (
                   <HeartOutlined onClick={onFollow} />
                 )}
-                <span className="title__count">{favoritesCount}</span>
+                <span className="title__count">{followCount}</span>
               </div>
             ) : null}
           </div>

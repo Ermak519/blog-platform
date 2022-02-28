@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Pagination, Spin, List } from 'antd';
 
 import { getDataArticles, getNewArticles } from '../../store/middlewares/articlesThunk';
-import { offsetArticles } from '../../store/slices/articlesSlice';
 
 import { ArticleListItem } from '../ArticleListItem';
 
@@ -14,16 +13,9 @@ const ArticleList = () => {
 
   const dispatch = useDispatch();
 
-  // const query = new URLSearchParams(useLocation().search);
-  // const urlPage = query.get('page');
-
   useEffect(() => {
     dispatch(getDataArticles());
-  }, []);
-
-  // useEffect(() => {
-  //   dispatch(getNewArticles(urlPage));
-  // }, [urlPage]);
+  }, [dispatch]);
 
   return loading ? (
     <Spin />

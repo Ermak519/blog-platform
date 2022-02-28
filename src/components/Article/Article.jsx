@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Tag, Button, Popconfirm, Spin, message } from 'antd';
@@ -6,7 +6,7 @@ import { HeartFilled, HeartOutlined } from '@ant-design/icons';
 import { nanoid } from '@reduxjs/toolkit';
 import ReactMarkdown from 'react-markdown';
 
-import { deleteArticle } from '../../API';
+import { deleteArticle, postFavorites, deleteFavorites } from '../../API';
 
 import { getDataArticle } from '../../store/middlewares/articleThunk';
 
@@ -16,10 +16,12 @@ import './Article.scss';
 
 const Article = () => {
   const { loading, articleData } = useSelector((state) => state.article);
+
   const { isLogin } = useSelector((state) => state.user);
+
   const dispatch = useDispatch();
 
-  const { username, token } = JSON.parse(localStorage.getItem('user'));
+  const { username, token } = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : '';
 
   const navigate = useNavigate();
 
@@ -31,6 +33,24 @@ const Article = () => {
     } else {
       message.error("This is not your article. You can't edit it");
     }
+  };
+
+  const { slug, favoritesCount, favorited } = articleData;
+  const [followCount, setFollowCount] = useState(favoritesCount);
+  const [follow, setFollow] = useState(favorited);
+
+  const onFollow = async () => {
+    const { article } = await postFavorites(token, slug);
+    const { favoritesCount: count, favorited: like } = article;
+    setFollowCount(count);
+    setFollow(like);
+  };
+
+  const onUnFollow = async () => {
+    const { article } = await deleteFavorites(token, slug);
+    const { favoritesCount: count, favorited: like } = article;
+    setFollowCount(count);
+    setFollow(like);
   };
 
   const onDeleteArticle = async () => {
@@ -58,16 +78,12 @@ const Article = () => {
               <div className="title__info">{articleData.title}</div>
               {isLogin ? (
                 <div className="title__follow">
-                  {articleData.favorited ? (
-                    <HeartFilled style={{ color: 'red' }} />
+                  {follow ? (
+                    <HeartFilled style={{ color: 'red' }} onClick={onUnFollow} />
                   ) : (
-                    <HeartOutlined
-                      onClick={() => {
-                        console.log('like');
-                      }}
-                    />
+                    <HeartOutlined onClick={onFollow} />
                   )}
-                  <span className="title__count">{articleData.favoritesCount}</span>
+                  <span className="title__count">{followCount}</span>
                 </div>
               ) : null}
             </div>
