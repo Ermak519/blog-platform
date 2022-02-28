@@ -1,0 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Open+Sans:wght@300;400;500;600&display=swap');
+
+body {
+  background: #ebeef3;
+}
+
+.app {
+  &__nav {
+    background-color: #fff;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    padding: 16px 22px;
+  }
+
+  &__main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 0 auto;
+    padding: 26px 26px;
+  }
+}

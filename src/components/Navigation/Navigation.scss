@@ -1,0 +1,86 @@
+.navigation {
+  flex-grow: 1;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: normal;
+
+  ul {
+    padding: 0;
+    margin: 0;
+  }
+
+  li {
+    list-style: none;
+  }
+
+  &__list {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__item {
+    align-items: baseline;
+    font-size: 18px;
+    line-height: 28px;
+    display: flex;
+    align-items: center;
+  }
+
+  .logo {
+    &:hover {
+      cursor: pointer;
+    }
+
+    &__title {
+      padding-left: 10px;
+    }
+  }
+
+  .registry {
+    &__btns {
+      display: flex;
+    }
+    &__btn {
+      &:first-child {
+        padding-right: 10px;
+      }
+    }
+  }
+
+  .loginUser {
+    display: flex;
+    &__btns {
+      display: flex;
+      align-items: center;
+    }
+    &__btn {
+      &:first-child {
+        padding-right: 26px;
+      }
+      &:last-child {
+        padding-left: 26px;
+      }
+    }
+    &__usr {
+      display: flex;
+    }
+    &__name {
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: normal;
+      font-size: 18px;
+      line-height: 28px;
+      display: flex;
+      align-items: center;
+      color: rgba(0, 0, 0, 0.85);
+    }
+    &__img {
+      padding-left: 12px;
+      img {
+        width: 46px;
+        height: 46px;
+        border-radius: 50%;
+      }
+    }
+  }
+}
