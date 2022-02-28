@@ -1,3 +1,3 @@
 # Blog-platform
 
-[Blog-platform](https://github.com/facebook/create-react-app)
+[Blog-platform](https://platform-ermak519.vercel.app/)
