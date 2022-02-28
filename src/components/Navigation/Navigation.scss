@@ -31,6 +31,13 @@
       cursor: pointer;
     }
 
+    &__img {
+      img {
+        width: 40px;
+        height: 40px;
+      }
+    }
+
     &__title {
       padding-left: 10px;
     }
