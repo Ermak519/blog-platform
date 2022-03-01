@@ -51,6 +51,13 @@
       &:first-child {
         padding-right: 10px;
       }
+
+      .log-in-btn {
+        border: 1px solid #52c41a;
+        box-sizing: border-box;
+        border-radius: 5px;
+        color: #52c41a;
+      }
     }
   }
 
@@ -66,6 +73,30 @@
       }
       &:last-child {
         padding-left: 26px;
+      }
+
+      .create-article-btn {
+        width: 112px;
+        height: 30px;
+        border: 1px solid #52c41a;
+        box-sizing: border-box;
+        border-radius: 5px;
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: normal;
+        font-size: 14px;
+        line-height: 22px;
+        align-items: center;
+        color: #52c41a;
+        padding: 0;
+      }
+
+      .log-out-btn {
+        width: 109px;
+        height: 51px;
+        border: 1px solid rgba(0, 0, 0, 0.75);
+        box-sizing: border-box;
+        border-radius: 5px;
       }
     }
     &__usr {

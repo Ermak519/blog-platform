@@ -24,9 +24,9 @@ const LogInForm = () => {
       localStorage.setItem('user', JSON.stringify(user));
       dispatch(userLogin(user));
       navigate('/articles');
-      message.success(`Hello, ${user.username}. Welcome back.`);
+      message.success(`Hello, ${user.username}. Welcome back.`, 5);
     } catch {
-      message.error('Incorrect login or password. Try again.');
+      message.error('Incorrect login or password. Try again.', 5);
     }
   };
 

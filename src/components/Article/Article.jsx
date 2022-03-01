@@ -16,6 +16,7 @@ import './Article.scss';
 
 const Article = () => {
   const { loading, articleData } = useSelector((state) => state.article);
+  const { slug, favoritesCount, favorited } = articleData;
 
   const { isLogin } = useSelector((state) => state.user);
 
@@ -27,6 +28,18 @@ const Article = () => {
 
   const { id } = useParams();
 
+  const [followCount, setFollowCount] = useState(favoritesCount);
+  const [follow, setFollow] = useState(favorited);
+
+  useEffect(() => {
+    setFollowCount(favoritesCount);
+    setFollow(favorited);
+  }, [favoritesCount, favorited]);
+
+  useEffect(() => {
+    dispatch(getDataArticle(token, id));
+  }, [dispatch, id, token]);
+
   const onEditArticle = () => {
     if (username === articleData.author.username) {
       navigate(`/articles/${id}/edit`);
@@ -35,9 +48,15 @@ const Article = () => {
     }
   };
 
-  const { slug, favoritesCount, favorited } = articleData;
-  const [followCount, setFollowCount] = useState(favoritesCount);
-  const [follow, setFollow] = useState(favorited);
+  const onDeleteArticle = async () => {
+    if (username === articleData.author.username) {
+      await deleteArticle(token, id);
+      message.success('Article has been deleted');
+      navigate('/articles');
+    } else {
+      message.error("This is not your article. You can't delete it");
+    }
+  };
 
   const onFollow = async () => {
     const { article } = await postFavorites(token, slug);
@@ -52,20 +71,6 @@ const Article = () => {
     setFollowCount(count);
     setFollow(like);
   };
-
-  const onDeleteArticle = async () => {
-    if (username === articleData.author.username) {
-      await deleteArticle(token, id);
-      message.success('Article has been deleted');
-      navigate('/articles');
-    } else {
-      message.error("This is not your article. You can't delete it");
-    }
-  };
-
-  useEffect(() => {
-    dispatch(getDataArticle(id));
-  }, [dispatch, id]);
 
   return loading ? (
     <Spin />
@@ -110,7 +115,6 @@ const Article = () => {
                   Delete
                 </Button>
               </Popconfirm>
-
               <Button
                 onClick={onEditArticle}
                 type="primary"

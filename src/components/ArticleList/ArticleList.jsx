@@ -11,11 +11,13 @@ import './ArticleList.scss';
 const ArticleList = () => {
   const { articlesData, loading, pages, page } = useSelector((state) => state.articles);
 
+  const { token } = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : '';
+
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getDataArticles());
-  }, [dispatch]);
+    dispatch(getDataArticles(token));
+  }, [dispatch, token]);
 
   return loading ? (
     <Spin />
@@ -34,7 +36,7 @@ const ArticleList = () => {
         <Pagination
           current={page}
           onChange={(value) => {
-            dispatch(getNewArticles(value));
+            dispatch(getNewArticles(token, value));
           }}
           showSizeChanger={false}
           size="small"

@@ -2,13 +2,15 @@ import axios from 'axios';
 
 const API_URL = 'https://kata.academy:8021/api/';
 
-export const getArticles = async (offset = 0) => {
-  const { data } = await axios.get(`${API_URL}articles?offset=${offset}&limit=10`);
+export const getArticles = async (token, offset = 0) => {
+  const { data } = await axios.get(`${API_URL}articles?offset=${offset}&limit=10`, {
+    headers: { Authorization: `Token ${token}` },
+  });
   return data;
 };
 
-export const getArticle = async (id) => {
-  const { data } = await axios.get(`${API_URL}articles/${id}`);
+export const getArticle = async (token, id) => {
+  const { data } = await axios.get(`${API_URL}articles/${id}`, { headers: { Authorization: `Token ${token}` } });
   return data;
 };
 

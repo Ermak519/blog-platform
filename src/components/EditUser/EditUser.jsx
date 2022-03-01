@@ -11,14 +11,14 @@ import { userUpdate } from '../../store/slices/userSlice';
 import './EditUser.scss';
 
 const EditUser = () => {
-  const [form] = Form.useForm();
-
   const { isLogin, data } = useSelector((state) => state.user);
-  const dispatch = useDispatch();
-
   const { username: name, email: mail } = data;
 
+  const dispatch = useDispatch();
+
   const navigate = useNavigate();
+
+  const [form] = Form.useForm();
 
   const onSubmit = async (values) => {
     const { username, email, password, img } = values;
@@ -72,7 +72,7 @@ const EditUser = () => {
             rules={[
               { required: true, message: 'Please confirm your password!' },
               ({ getFieldValue }) => ({
-                validator(_, value) {
+                validator(__, value) {
                   if (!value || getFieldValue('password') === value) {
                     return Promise.resolve();
                   }

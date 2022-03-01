@@ -14,13 +14,17 @@ const RegisterForm = () => {
 
   const onSubmit = async (values) => {
     const { username, email, password, agreement } = values;
-    if (agreement) {
-      form.resetFields();
-      await postRegisterUser(username, email, password);
-      navigate('/articles');
-      message.success('You have been registered');
-    } else {
-      message.error('You need to consent to the processing of personal data');
+    try {
+      if (agreement) {
+        form.resetFields();
+        await postRegisterUser(username, email, password);
+        navigate('/articles');
+        message.success('You have been registered');
+      } else {
+        message.error('You need to consent to the processing of personal data', 8);
+      }
+    } catch {
+      message.error('Invalid username or email', 10);
     }
   };
 
@@ -32,7 +36,7 @@ const RegisterForm = () => {
           <span className="register-form__email">Username</span>
           <Form.Item
             name="username"
-            rules={[{ required: true, message: 'Username must be 3-20 symbols', min: 3, max: 20 }]}
+            rules={[{ required: true, message: 'Username must have 3-20 characters', min: 3, max: 20 }]}
           >
             <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
           </Form.Item>
@@ -43,14 +47,7 @@ const RegisterForm = () => {
           <span className="register-form__pwd">Password</span>
           <Form.Item
             name="password"
-            rules={[
-              {
-                required: true,
-                message: 'Minimal length 6 symbols',
-                min: 6,
-                max: 40,
-              },
-            ]}
+            rules={[{ required: true, message: 'Minimal length 6 characters', min: 6, max: 40 }]}
             hasFeedback
           >
             <Input.Password />
@@ -66,7 +63,7 @@ const RegisterForm = () => {
                 message: 'Confirm your password',
               },
               ({ getFieldValue }) => ({
-                validator(_, value) {
+                validator(__, value) {
                   if (!value || getFieldValue('password') === value) {
                     return Promise.resolve();
                   }

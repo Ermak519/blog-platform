@@ -6,7 +6,6 @@ const initialState = {
   pages: 0,
   offset: 0,
   page: 1,
-  followed: [],
 };
 
 const articlesSlice = createSlice({
@@ -24,13 +23,10 @@ const articlesSlice = createSlice({
     setPage: (state, action) => {
       state.page = action.payload;
     },
-    setFollowed: (state, action) => {
-      state.followed = action.payload;
-    },
   },
 });
 
 const { actions, reducer } = articlesSlice;
 
 export { reducer };
-export const { addArticles, offsetArticles, setPage, setFollowed } = actions;
+export const { addArticles, offsetArticles, setPage } = actions;

@@ -14,6 +14,7 @@
     "jest": true
   },
   "rules": {
+    "import/no-extraneous-dependencies": 1,
     "react-hooks/exhaustive-deps": 1,
     "no-unneeded-ternary": 1,
     "no-unused-vars": 1,

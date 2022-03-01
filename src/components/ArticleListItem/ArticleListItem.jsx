@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import propTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -21,6 +21,11 @@ const ArticleListItem = ({ data }) => {
 
   const [followCount, setFollowCount] = useState(favoritesCount);
   const [follow, setFollow] = useState(favorited);
+
+  useEffect(() => {
+    setFollowCount(favoritesCount);
+    setFollow(favorited);
+  }, [favoritesCount, favorited]);
 
   const onFollow = async () => {
     const { article } = await postFavorites(token, slug);

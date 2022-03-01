@@ -15,7 +15,7 @@ const ArticleForm = () => {
   const { isLogin } = useSelector((state) => state.user);
   const { articleData } = useSelector((state) => state.article);
 
-  const { token } = JSON.parse(localStorage.getItem('user'));
+  const { token } = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : '';
 
   const dispatch = useDispatch();
 
@@ -38,7 +38,7 @@ const ArticleForm = () => {
 
   useEffect(() => {
     if (!id) form.resetFields();
-  }, [id]);
+  }, [id, form]);
 
   return isLogin ? (
     <div className="edit-article">

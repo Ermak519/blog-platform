@@ -33,11 +33,10 @@
     "web-vitals": "^2.1.2"
   },
   "devDependencies": {
-    "@vitejs/plugin-react": "^1.0.7",
-    "vite": "^2.8.0",
     "@babel/eslint-parser": "^7.5.4",
     "@babel/plugin-syntax-jsx": "^7.16.5",
     "@babel/preset-react": "^7.16.5",
+    "@vitejs/plugin-react": "^1.0.7",
     "eslint": "^8.5.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^8.3.0",
@@ -51,7 +50,9 @@
     "husky": "^7.0.4",
     "lint-staged": "^12.1.4",
     "prettier": "^2.5.1",
-    "sass": "^1.45.1"
+    "sass": "^1.45.1",
+    "vite": "^2.8.0",
+    "vite-plugin-fonts": "^0.2.2"
   },
   "husky": {
     "hooks": {
