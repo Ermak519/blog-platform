@@ -3,7 +3,7 @@ import { BackTop } from 'antd';
 import { ArrowUpOutlined } from '@ant-design/icons';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-import { Navigation } from '../Navigation';
+import { Header } from '../Header';
 import { ArticleList } from '../ArticleList';
 import { Article } from '../Article';
 import { LogInForm } from '../LogInForm';
@@ -19,7 +19,7 @@ const App = () => (
   <Router>
     <div className="app">
       <nav className="app__nav">
-        <Navigation />
+        <Header />
       </nav>
       <main className="app__main">
         <Routes>

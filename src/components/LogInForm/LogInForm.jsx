@@ -51,9 +51,9 @@ const LogInForm = () => {
             </div>
           </Form.Item>
           <div className="logInForm__reg">
-            Don’t have an account?
-            <Link to="/register">
-              <span className="logInForm__link">Sign Up</span>.
+            {'Don’t have an account?'}
+            <Link className="logInForm__link" to="/register">
+              Sign Up.
             </Link>
           </div>
         </Form>

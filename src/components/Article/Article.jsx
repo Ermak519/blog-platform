@@ -8,14 +8,15 @@ import ReactMarkdown from 'react-markdown';
 
 import { deleteArticle, postFavorites, deleteFavorites } from '../../API';
 
-import { getDataArticle } from '../../store/middlewares/articleThunk';
+import { getDataArticle, returnToArticles } from '../../store/middlewares/articlesThunk';
+import { clearArticleData } from '../../store/slices/articlesSlice';
 
 import { User } from '../User';
 
 import './Article.scss';
 
 const Article = () => {
-  const { loading, articleData } = useSelector((state) => state.article);
+  const { articleLoading, articleData, page } = useSelector((state) => state.articles);
   const { slug, favoritesCount, favorited } = articleData;
 
   const { isLogin } = useSelector((state) => state.user);
@@ -65,14 +66,19 @@ const Article = () => {
     setFollow(like);
   };
 
-  const onUnFollow = async () => {
+  const onUnfollow = async () => {
     const { article } = await deleteFavorites(token, slug);
     const { favoritesCount: count, favorited: like } = article;
     setFollowCount(count);
     setFollow(like);
   };
 
-  return loading ? (
+  const onGoBack = () => {
+    navigate('/articles');
+    dispatch(clearArticleData());
+  };
+
+  return articleLoading ? (
     <Spin />
   ) : (
     <div className="article-full">
@@ -84,13 +90,18 @@ const Article = () => {
               {isLogin ? (
                 <div className="title__follow">
                   {follow ? (
-                    <HeartFilled style={{ color: 'red' }} onClick={onUnFollow} />
+                    <HeartFilled style={{ color: 'red' }} onClick={onUnfollow} />
                   ) : (
                     <HeartOutlined onClick={onFollow} />
                   )}
                   <span className="title__count">{followCount}</span>
                 </div>
               ) : null}
+              <div className="title__back-btn">
+                <Button type="primary" className="back-btn" ghost onClick={onGoBack}>
+                  Back
+                </Button>
+              </div>
             </div>
             <div className="title__tags">
               {articleData.tagList.map((elem) => (

@@ -34,7 +34,7 @@ const ArticleListItem = ({ data }) => {
     setFollow(like);
   };
 
-  const onUnFollow = async () => {
+  const onUnfollow = async () => {
     const { article } = await deleteFavorites(token, slug);
     const { favoritesCount: count, favorited: like } = article;
     setFollowCount(count);
@@ -52,7 +52,7 @@ const ArticleListItem = ({ data }) => {
             {isLogin ? (
               <div className="title__follow">
                 {follow ? (
-                  <HeartFilled style={{ color: 'red' }} onClick={onUnFollow} />
+                  <HeartFilled style={{ color: 'red' }} onClick={onUnfollow} />
                 ) : (
                   <HeartOutlined onClick={onFollow} />
                 )}

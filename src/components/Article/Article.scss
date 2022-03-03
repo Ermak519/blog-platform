@@ -24,6 +24,14 @@
         line-height: 22px;
         color: rgba(0, 0, 0, 0.75);
       }
+      &__back-btn {
+        padding-left: 10px;
+        .back-btn {
+          border-radius: 5px;
+          width: 78px;
+          height: 30px;
+        }
+      }
       &__info {
         padding-bottom: 10px;
         font-family: 'Inter';

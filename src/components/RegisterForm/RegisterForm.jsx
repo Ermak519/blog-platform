@@ -88,9 +88,9 @@ const RegisterForm = () => {
             </div>
           </Form.Item>
           <div className="register-form__reg">
-            Already have an account?
-            <Link to="/login">
-              <span className="register-form__link">Sign In</span>.
+            {'Already have an account?'}
+            <Link className="register-form__link" to="/login">
+              Sign In.
             </Link>
           </div>
         </Form>

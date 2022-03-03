@@ -4,10 +4,10 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Button } from 'antd';
 
 import { userLogout } from '../../store/slices/userSlice';
-import { clearArticleData } from '../../store/slices/articleSlice';
-import { getNewArticles } from '../../store/middlewares/articlesThunk';
+import { clearArticleData } from '../../store/slices/articlesSlice';
+import { getDataArticles } from '../../store/middlewares/articlesThunk';
 
-import './Navigation.scss';
+import './Header.scss';
 import Logo from '../../assets/img/logo.svg';
 import defaultUser from '../../assets/img/anon.svg';
 
@@ -27,7 +27,7 @@ const Navigation = () => {
   };
 
   const mainPage = () => {
-    dispatch(getNewArticles(token, 1));
+    dispatch(getDataArticles(token, 1));
     dispatch(clearArticleData());
   };
 

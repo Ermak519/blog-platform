@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Form, Input, Button, Result, message } from 'antd';
 
-import { setArticleData } from '../../store/slices/articleSlice';
+import { setArticleData } from '../../store/slices/articlesSlice';
 
 import { putEditArticle, postCreateArticle } from '../../API';
 
@@ -13,7 +13,7 @@ const ArticleForm = () => {
   const { id } = useParams();
 
   const { isLogin } = useSelector((state) => state.user);
-  const { articleData } = useSelector((state) => state.article);
+  const { articleData } = useSelector((state) => state.articles);
 
   const { token } = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : '';
 
@@ -21,17 +21,16 @@ const ArticleForm = () => {
 
   const navigate = useNavigate();
 
-  const onEditArticle = async (values) => {
-    const { article } = await putEditArticle(token, id, values);
-    message.success('Article has been edited');
-    dispatch(setArticleData(article));
-    navigate(`/articles/${id}`);
-  };
-
-  const onCreateArticle = async (values) => {
-    const { article } = await postCreateArticle(token, values);
-    message.success('Article has been created');
-    navigate(`/articles/${article.slug}`);
+  const onActionInteraction = async (values) => {
+    if (id) {
+      const { article } = await putEditArticle(token, id, values);
+      dispatch(setArticleData(article));
+      navigate(`/articles/${id}`);
+    } else {
+      const { article } = await postCreateArticle(token, values);
+      navigate(`/articles/${article.slug}`);
+    }
+    message.success(id ? 'Article has been edited' : 'Article has been created');
   };
 
   const [form] = Form.useForm();
@@ -49,7 +48,7 @@ const ArticleForm = () => {
           name="normal_login"
           className="login-form"
           initialValues={{ ...articleData }}
-          onFinish={id ? onEditArticle : onCreateArticle}
+          onFinish={onActionInteraction}
         >
           <span className="edit-article__title">Title</span>
           <Form.Item name="title" rules={[{ required: true, message: 'Please input your Title!' }]}>

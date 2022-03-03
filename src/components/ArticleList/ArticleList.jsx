@@ -2,24 +2,24 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Pagination, Spin, List } from 'antd';
 
-import { getDataArticles, getNewArticles } from '../../store/middlewares/articlesThunk';
+import { getDataArticles } from '../../store/middlewares/articlesThunk';
 
 import { ArticleListItem } from '../ArticleListItem';
 
 import './ArticleList.scss';
 
 const ArticleList = () => {
-  const { articlesData, loading, pages, page } = useSelector((state) => state.articles);
+  const { articlesData, articlesLoading, pages, page } = useSelector((state) => state.articles);
 
   const { token } = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : '';
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getDataArticles(token));
-  }, [dispatch, token]);
+    dispatch(getDataArticles(token, page));
+  }, [page]);
 
-  return loading ? (
+  return articlesLoading ? (
     <Spin />
   ) : (
     <div className="article-list">
@@ -36,7 +36,7 @@ const ArticleList = () => {
         <Pagination
           current={page}
           onChange={(value) => {
-            dispatch(getNewArticles(token, value));
+            dispatch(getDataArticles(token, value));
           }}
           showSizeChanger={false}
           size="small"

@@ -2,10 +2,12 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   articlesData: [],
-  loading: true,
+  articlesLoading: true,
   pages: 0,
   offset: 0,
   page: 1,
+  articleLoading: true,
+  articleData: {},
 };
 
 const articlesSlice = createSlice({
@@ -15,7 +17,7 @@ const articlesSlice = createSlice({
     addArticles: (state, action) => {
       state.articlesData = action.payload.articles;
       state.pages = action.payload.pages;
-      state.loading = false;
+      state.articlesLoading = false;
     },
     offsetArticles: (state, action) => {
       state.offset = action.payload;
@@ -23,10 +25,20 @@ const articlesSlice = createSlice({
     setPage: (state, action) => {
       state.page = action.payload;
     },
+    setArticleData: (state, action) => {
+      state.articleData = action.payload;
+      state.articleLoading = false;
+      state.articlesLoading = true;
+    },
+    clearArticleData: (state) => {
+      state.articleData = {};
+      state.articleLoading = true;
+    },
   },
 });
 
 const { actions, reducer } = articlesSlice;
 
 export { reducer };
-export const { addArticles, offsetArticles, setPage } = actions;
+
+export const { addArticles, offsetArticles, setPage, setArticleData, clearArticleData } = actions;
